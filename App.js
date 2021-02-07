@@ -1,21 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { StatusBar } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import MainStackScreen from './screens/stacks/MainStackScreen'
+import ModalScreen from './screens/ModalScreen'
+import WelcomeStackScreen from './screens/stacks/WelcomeStackScreen'
 
-export default function App() {
+const Stack = createStackNavigator()
+
+const App = () => {
+  const [isLogged, setIsLogged] = React.useState(false)
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <NavigationContainer>
+      <StatusBar barStyle='dark-content' backgroundColor='#f4511e' />
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#f4511e'
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold'
+          }
+        }}
+      >
+        {isLogged ? (
+          <Stack.Screen name='Main' component={MainStackScreen} />
+        ) : (
+          <Stack.Screen name='Welcome' component={WelcomeStackScreen} />
+        )}
+        <Stack.Screen name='MyModal' component={ModalScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
