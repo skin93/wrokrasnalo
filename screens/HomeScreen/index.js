@@ -1,18 +1,23 @@
 import React from 'react'
-import { Button, StyleSheet, View } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native'
+import { colors } from '../../theme/colors'
+import Constants from 'expo-constants'
 
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.button}>
-        <Button title='Login' onPress={() => navigation.navigate('Login')} />
-      </View>
-      <View style={styles.button}>
-        <Button
-          title='Register'
-          onPress={() => navigation.navigate('Register')}
-        />
-      </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Login')}
+      >
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Register')}
+      >
+        <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -22,11 +27,19 @@ export default HomeScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    padding: 8,
     justifyContent: 'center'
   },
   button: {
-    marginTop: 10,
-    width: 100
+    marginTop: 40,
+    backgroundColor: colors.primary,
+    height: Constants.statusBarHeight,
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  buttonText: {
+    fontSize: 20,
+    color: colors.light
   }
 })
