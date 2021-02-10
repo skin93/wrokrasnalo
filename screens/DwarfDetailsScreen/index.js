@@ -1,15 +1,10 @@
 import React, { useEffect } from 'react'
-import {
-  ActivityIndicator,
-  Button,
-  Image,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
 import { listDwarfDetails } from '../../redux/actions/dwarfActions'
 import { useDispatch, useSelector } from 'react-redux'
 import { colors } from '../../theme/colors'
+
+import { ScrollView } from 'react-native-gesture-handler'
 
 const DwarfDetailsScreen = ({ route, navigation }) => {
   useEffect(() => {
@@ -28,14 +23,14 @@ const DwarfDetailsScreen = ({ route, navigation }) => {
           <Text>{error}</Text>
         </View>
       ) : (
-        <>
+        <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
           <Image style={styles.image} source={{ uri: dwarf.picture_src }} />
-          <Text style={styles.dwarfName}>{dwarf.name}</Text>
-          <Text>{dwarf.description}</Text>
-          <View style={styles.button}>
-            <Button title='Go back' onPress={() => navigation.goBack()} />
+          <View style={styles.dwarfHeader}>
+            <Text style={styles.dwarfName}>{dwarf.name}</Text>
+            <Text style={styles.dwarfAddress}>{dwarf.address}</Text>
           </View>
-        </>
+          <Text style={styles.dwarfDescription}>{dwarf.description}</Text>
+        </ScrollView>
       )}
     </View>
   )
@@ -56,10 +51,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 20
   },
+  dwarfHeader: {
+    marginVertical: 20,
+    alignItems: 'center'
+  },
   dwarfName: {
     fontSize: 30,
-    fontWeight: 'bold',
-    marginVertical: 20
+    fontWeight: 'bold'
+  },
+  dwarfAddress: {
+    color: 'gray'
+  },
+  dwarfDescription: {
+    fontSize: 18,
+    textAlign: 'center'
   },
   button: {
     marginTop: 20
