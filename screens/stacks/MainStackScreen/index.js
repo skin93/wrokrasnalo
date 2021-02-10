@@ -13,21 +13,21 @@ const MainStackScreen = () => {
         name='Menu'
         component={MenuScreen}
         options={{
-          headerTitle: 'Main Menu'
+          headerShown: false
         }}
       />
       <MainStack.Screen
         name='Dwarfs'
         component={DwarfsScreen}
         options={{
-          headerTitle: 'Dwarfs'
+          headerShown: false
         }}
       />
       <MainStack.Screen
         name='DwarfDetails'
         component={DwarfDetailsScreen}
         options={{
-          headerTitle: 'Dwarf'
+          headerShown: false
         }}
       />
     </MainStack.Navigator>

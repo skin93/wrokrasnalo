@@ -13,21 +13,21 @@ const WelcomeStackScreen = () => {
         name='Home'
         component={HomeScreen}
         options={{
-          headerTitle: 'Home'
+          headerShown: false
         }}
       />
       <MainStack.Screen
         name='Login'
         component={LoginScreen}
         options={{
-          headerTitle: 'Login'
+          headerShown: false
         }}
       />
       <MainStack.Screen
         name='Register'
         component={RegisterScreen}
         options={{
-          headerTitle: 'Register'
+          headerShown: false
         }}
       />
     </MainStack.Navigator>

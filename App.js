@@ -14,6 +14,8 @@ import firebaseConfig from './config/firebase'
 import { Provider } from 'react-redux'
 import store from './redux/store'
 
+import { colors } from './theme/colors'
+
 const Stack = createStackNavigator()
 
 if (firebase.apps.length === 0) {
@@ -46,11 +48,11 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <StatusBar barStyle='dark-content' backgroundColor='#f4511e' />
+        <StatusBar barStyle='light-content' backgroundColor={colors.primary} />
         <Stack.Navigator
           screenOptions={{
             headerStyle: {
-              backgroundColor: '#f4511e'
+              backgroundColor: colors.dark
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
