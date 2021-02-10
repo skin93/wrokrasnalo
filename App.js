@@ -11,8 +11,10 @@ import 'firebase/auth'
 import 'firebase/firestore'
 import firebaseConfig from './config/firebase'
 
-import { Provider } from 'react-redux'
+import { Provider as StoreProvider } from 'react-redux'
 import store from './redux/store'
+
+import { Provider as PaperProvider } from 'react-native-paper'
 
 import { colors } from './theme/colors'
 
@@ -46,29 +48,34 @@ const App = () => {
   }
 
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <StatusBar barStyle='light-content' backgroundColor={colors.primary} />
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: colors.dark
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold'
-            }
-          }}
-        >
-          {loggedIn ? (
-            <Stack.Screen name='Main' component={MainStackScreen} />
-          ) : (
-            <Stack.Screen name='Welcome' component={WelcomeStackScreen} />
-          )}
-          <Stack.Screen name='MyModal' component={ModalScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+    <StoreProvider store={store}>
+      <PaperProvider>
+        <NavigationContainer>
+          <StatusBar
+            barStyle='light-content'
+            backgroundColor={colors.primary}
+          />
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: colors.dark
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold'
+              }
+            }}
+          >
+            {loggedIn ? (
+              <Stack.Screen name='Main' component={MainStackScreen} />
+            ) : (
+              <Stack.Screen name='Welcome' component={WelcomeStackScreen} />
+            )}
+            <Stack.Screen name='MyModal' component={ModalScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    </StoreProvider>
   )
 }
 
