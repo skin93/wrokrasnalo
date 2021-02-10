@@ -2,7 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import MenuScreen from '../../MenuScreen'
 import DwarfsScreen from '../../DwarfsScreen'
-import DwarfItemScreen from '../../DwarfItemScreen'
+import DwarfDetailsScreen from '../../DwarfDetailsScreen'
 
 const MainStack = createStackNavigator()
 
@@ -24,8 +24,8 @@ const MainStackScreen = () => {
         }}
       />
       <MainStack.Screen
-        name='Dwarf'
-        component={DwarfItemScreen}
+        name='DwarfDetails'
+        component={DwarfDetailsScreen}
         options={{
           headerTitle: 'Dwarf'
         }}

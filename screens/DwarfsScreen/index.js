@@ -13,7 +13,7 @@ import { listDwarfs } from '../../redux/actions/dwarfActions'
 
 import { colors } from '../../theme/colors'
 
-const DwarfsScreen = () => {
+const DwarfsScreen = ({ navigation }) => {
   const dispatch = useDispatch()
 
   const { dwarfs, loading, error } = useSelector((state) => state.dwarfList)
@@ -37,7 +37,13 @@ const DwarfsScreen = () => {
         dwarfs.length > 0 && (
           <ScrollView contentContainerStyle={styles.dwarfContainer}>
             {dwarfs.map((dwarf) => (
-              <TouchableOpacity key={dwarf.name} style={styles.imageWrapper}>
+              <TouchableOpacity
+                key={dwarf.id}
+                style={styles.imageWrapper}
+                onPress={() =>
+                  navigation.navigate('DwarfDetails', { dwarfId: dwarf.id })
+                }
+              >
                 <Image
                   style={styles.image}
                   source={{ uri: dwarf.picture_src }}
