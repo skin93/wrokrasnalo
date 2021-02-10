@@ -111,7 +111,7 @@ const RegisterScreen = () => {
         )}
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSubmit(onSignUp)}>
-        <Text style={{ color: 'white' }}>Register</Text>
+        <Text style={styles.text}>Register</Text>
       </TouchableOpacity>
     </View>
   )
@@ -146,6 +146,11 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     paddingLeft: 20,
+    fontSize: 20
+  },
+  text: {
+    color: 'white',
+    fontWeight: 'bold',
     fontSize: 20
   },
   error: {

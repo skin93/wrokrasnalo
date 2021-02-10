@@ -84,7 +84,7 @@ const LoginScreen = () => {
         )}
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
-        <Text style={{ color: 'white' }}>Login</Text>
+        <Text style={styles.text}>Login</Text>
       </TouchableOpacity>
     </View>
   )
@@ -119,6 +119,11 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     paddingLeft: 20,
+    fontSize: 20
+  },
+  text: {
+    color: 'white',
+    fontWeight: 'bold',
     fontSize: 20
   },
   error: {
