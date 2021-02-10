@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux'
-import { dwarfListReducer } from './dwarfReducers'
+import { dwarfDetailsReducer, dwarfListReducer } from './dwarfReducers'
 import { userLoginReducer, userRegisterReducer } from './userReducers'
 
 const rootReducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
-  dwarfList: dwarfListReducer
+  dwarfList: dwarfListReducer,
+  dwarfDetails: dwarfDetailsReducer
 })
 
 export default rootReducer
