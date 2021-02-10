@@ -49,8 +49,6 @@ export const listDwarfDetails = (id) => async (dispatch) => {
       dwarf.push(doc.data())
     })
 
-    console.log(dwarf)
-
     dispatch({ type: DWARF_DETAILS_SUCCESS, payload: dwarf[0] })
   } catch (err) {
     dispatch({
