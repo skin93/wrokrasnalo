@@ -2,11 +2,12 @@ import React, { useEffect } from 'react'
 import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
 import { listDwarfDetails } from '../../redux/actions/dwarfActions'
 import { useDispatch, useSelector } from 'react-redux'
-import { colors } from '../../theme/colors'
+import { useTheme } from 'react-native-paper'
 
 import { ScrollView } from 'react-native-gesture-handler'
 
 const DwarfDetailsScreen = ({ route }) => {
+  const { colors } = useTheme()
   useEffect(() => {
     dispatch(listDwarfDetails(route.params.dwarfId))
   }, [dispatch, route.params.dwarfId])

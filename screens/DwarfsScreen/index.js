@@ -11,9 +11,10 @@ import {
 } from 'react-native'
 import { listDwarfs } from '../../redux/actions/dwarfActions'
 
-import { colors } from '../../theme/colors'
+import { useTheme } from 'react-native-paper'
 
 const DwarfsScreen = ({ navigation }) => {
+  const { colors } = useTheme()
   const dispatch = useDispatch()
 
   const { dwarfs, loading, error } = useSelector((state) => state.dwarfList)

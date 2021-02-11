@@ -12,9 +12,10 @@ import { useDispatch } from 'react-redux'
 import { login } from '../../redux/actions/userActions'
 import Constants from 'expo-constants'
 
-import { colors } from '../../theme/colors'
+import { useTheme } from 'react-native-paper'
 
 const LoginScreen = () => {
+  const { colors } = useTheme()
   const { control, handleSubmit, errors } = useForm()
   const dispatch = useDispatch()
 
@@ -83,7 +84,10 @@ const LoginScreen = () => {
           <Text style={styles.error}>{errors.password.message}</Text>
         )}
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
+      <TouchableOpacity
+        style={{ ...styles.button, backgroundColor: colors.primary }}
+        onPress={handleSubmit(onSubmit)}
+      >
         <Text style={styles.text}>Login</Text>
       </TouchableOpacity>
     </View>
@@ -101,7 +105,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 40,
-    backgroundColor: colors.primary,
     height: Constants.statusBarHeight,
     borderRadius: 4,
     alignItems: 'center',

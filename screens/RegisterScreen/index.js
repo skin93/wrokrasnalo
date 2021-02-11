@@ -10,10 +10,11 @@ import { MaterialIcons, FontAwesome } from '@expo/vector-icons'
 import { Controller, useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { register } from '../../redux/actions/userActions'
-import { colors } from '../../theme/colors'
+import { useTheme } from 'react-native-paper'
 import Constants from 'expo-constants'
 
 const RegisterScreen = () => {
+  const { colors } = useTheme()
   const { control, handleSubmit, errors } = useForm()
 
   const dispatch = useDispatch()
@@ -110,7 +111,10 @@ const RegisterScreen = () => {
           <Text style={styles.error}>{errors.password.message}</Text>
         )}
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleSubmit(onSignUp)}>
+      <TouchableOpacity
+        style={{ ...styles.button, backgroundColor: colors.primary }}
+        onPress={handleSubmit(onSignUp)}
+      >
         <Text style={styles.text}>Register</Text>
       </TouchableOpacity>
     </View>
@@ -128,7 +132,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 40,
-    backgroundColor: colors.primary,
     height: Constants.statusBarHeight,
     borderRadius: 4,
     alignItems: 'center',

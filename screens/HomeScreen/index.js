@@ -1,19 +1,20 @@
 import React from 'react'
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native'
-import { colors } from '../../theme/colors'
+import { useTheme } from 'react-native-paper'
 import Constants from 'expo-constants'
 
 const HomeScreen = ({ navigation }) => {
+  const { colors } = useTheme()
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={styles.button}
+        style={{ ...styles.button, backgroundColor: colors.primary }}
         onPress={() => navigation.navigate('Login')}
       >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.button}
+        style={{ ...styles.button, backgroundColor: colors.primary }}
         onPress={() => navigation.navigate('Register')}
       >
         <Text style={styles.buttonText}>Register</Text>
@@ -32,7 +33,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 40,
-    backgroundColor: colors.primary,
     height: Constants.statusBarHeight,
     borderRadius: 4,
     alignItems: 'center',
