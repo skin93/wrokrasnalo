@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { StatusBar, View, Text } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
-import MainStackScreen from './screens/stacks/MainStackScreen'
-import ModalScreen from './screens/ModalScreen'
-import WelcomeStackScreen from './screens/stacks/WelcomeStackScreen'
+import StackNavigator from './navigation/StackNavigator'
 
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -17,8 +14,6 @@ import store from './redux/store'
 import { Provider as PaperProvider } from 'react-native-paper'
 
 import { colors } from './theme/colors'
-
-const Stack = createStackNavigator()
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig)
@@ -55,24 +50,7 @@ const App = () => {
             barStyle='light-content'
             backgroundColor={colors.primary}
           />
-          <Stack.Navigator
-            screenOptions={{
-              headerStyle: {
-                backgroundColor: colors.dark
-              },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-                fontWeight: 'bold'
-              }
-            }}
-          >
-            {loggedIn ? (
-              <Stack.Screen name='Main' component={MainStackScreen} />
-            ) : (
-              <Stack.Screen name='Welcome' component={WelcomeStackScreen} />
-            )}
-            <Stack.Screen name='MyModal' component={ModalScreen} />
-          </Stack.Navigator>
+          <StackNavigator loggedIn={loggedIn} colors={colors} />
         </NavigationContainer>
       </PaperProvider>
     </StoreProvider>
