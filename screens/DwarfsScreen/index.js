@@ -26,7 +26,7 @@ const DwarfsScreen = ({ navigation }) => {
     <View style={styles.container}>
       {loading ? (
         <View>
-          <ActivityIndicator size='large' color={colors.primary} />
+          <ActivityIndicator size={100} color={colors.primary} />
         </View>
       ) : error ? (
         <View>

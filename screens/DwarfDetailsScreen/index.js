@@ -6,7 +6,7 @@ import { colors } from '../../theme/colors'
 
 import { ScrollView } from 'react-native-gesture-handler'
 
-const DwarfDetailsScreen = ({ route, navigation }) => {
+const DwarfDetailsScreen = ({ route }) => {
   useEffect(() => {
     dispatch(listDwarfDetails(route.params.dwarfId))
   }, [dispatch, route.params.dwarfId])
@@ -16,7 +16,7 @@ const DwarfDetailsScreen = ({ route, navigation }) => {
     <View style={styles.container}>
       {loading ? (
         <View>
-          <ActivityIndicator size='large' color={colors.primary} />
+          <ActivityIndicator size={100} color={colors.primary} />
         </View>
       ) : error ? (
         <View>
