@@ -8,28 +8,13 @@ const MainStack = createStackNavigator()
 
 const WelcomeStackScreen = () => {
   return (
-    <MainStack.Navigator initialRouteName='Home'>
-      <MainStack.Screen
-        name='Home'
-        component={HomeScreen}
-        options={{
-          headerShown: false
-        }}
-      />
-      <MainStack.Screen
-        name='Login'
-        component={LoginScreen}
-        options={{
-          headerShown: false
-        }}
-      />
-      <MainStack.Screen
-        name='Register'
-        component={RegisterScreen}
-        options={{
-          headerShown: false
-        }}
-      />
+    <MainStack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName='Home'
+    >
+      <MainStack.Screen name='Home' component={HomeScreen} />
+      <MainStack.Screen name='Login' component={LoginScreen} />
+      <MainStack.Screen name='Register' component={RegisterScreen} />
     </MainStack.Navigator>
   )
 }
