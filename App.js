@@ -11,12 +11,23 @@ import firebaseConfig from './config/firebase'
 import { Provider as StoreProvider } from 'react-redux'
 import store from './redux/store'
 
-import { Provider as PaperProvider } from 'react-native-paper'
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
 
 import { colors } from './theme/colors'
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig)
+}
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#005691',
+    light: '#fafafa',
+    text: '#e8f1f5',
+    dark: '#004a7c'
+  }
 }
 
 const App = () => {
@@ -44,7 +55,7 @@ const App = () => {
 
   return (
     <StoreProvider store={store}>
-      <PaperProvider>
+      <PaperProvider theme={theme}>
         <NavigationContainer>
           <StatusBar
             barStyle='light-content'
