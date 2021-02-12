@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import MapView, { Marker } from 'react-native-maps'
-import { useTheme } from 'react-native-paper'
+import MapView, { Marker, Callout } from 'react-native-maps'
+import { Title, useTheme } from 'react-native-paper'
 import {
   StyleSheet,
   View,
@@ -12,7 +12,7 @@ import {
 import { listDwarfs } from '../../redux/actions/dwarfActions'
 import { useDispatch, useSelector } from 'react-redux'
 
-const MapScreen = () => {
+const MapScreen = ({ navigation }) => {
   const { colors } = useTheme()
   const [region, setRegion] = useState({
     latitude: 51.107883,
@@ -38,28 +38,32 @@ const MapScreen = () => {
           <Text>{error}</Text>
         </View>
       ) : (
-        <>
-          <MapView
-            style={styles.map}
-            region={region}
-            onRegionChange={() => setRegion(region)}
-            zoomEnabled={true}
-            minZoomLevel={5}
-            mapType={'standard'}
-            scrollEnabled={true}
-          >
-            {dwarfs &&
-              dwarfs.length > 0 &&
-              dwarfs.map((dwarf) => (
-                <Marker
-                  key={dwarf.name}
-                  coordinate={{ latitude: dwarf.lat, longitude: dwarf.lng }}
-                  title={dwarf.name}
-                  description={dwarf.description}
-                />
-              ))}
-          </MapView>
-        </>
+        <MapView
+          style={styles.map}
+          region={region}
+          onRegionChange={() => setRegion(region)}
+          zoomEnabled={true}
+          minZoomLevel={5}
+          mapType={'standard'}
+          scrollEnabled={true}
+        >
+          {dwarfs &&
+            dwarfs.length > 0 &&
+            dwarfs.map((dwarf) => (
+              <Marker
+                key={dwarf.name}
+                coordinate={{ latitude: dwarf.lat, longitude: dwarf.lng }}
+              >
+                <Callout
+                  onPress={() =>
+                    navigation.navigate('DwarfDetails', { dwarfId: dwarf.id })
+                  }
+                >
+                  <Title style={{ color: colors.primary }}>{dwarf.name}</Title>
+                </Callout>
+              </Marker>
+            ))}
+        </MapView>
       )}
     </View>
   )
