@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import {
   View,
   Text,
@@ -9,19 +9,13 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native'
-import { listDwarfs } from '../../redux/actions/dwarfActions'
 
 import { useTheme } from 'react-native-paper'
 
 const DwarfsScreen = ({ navigation }) => {
   const { colors } = useTheme()
-  const dispatch = useDispatch()
 
   const { dwarfs, loading, error } = useSelector((state) => state.dwarfList)
-
-  useEffect(() => {
-    dispatch(listDwarfs())
-  }, [dispatch])
 
   return (
     <View style={styles.container}>
