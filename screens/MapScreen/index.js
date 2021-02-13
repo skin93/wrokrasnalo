@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, useRef } from 'react'
 import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location'
 import MapView, { Marker, Callout } from 'react-native-maps'
@@ -15,7 +15,10 @@ import {
 import { listDwarfs } from '../../redux/actions/dwarfActions'
 import { useDispatch, useSelector } from 'react-redux'
 
+import CurrentLocationButton from '../../components/UI/CurrentLocationButton'
+
 const MapScreen = ({ navigation }) => {
+  const map = useRef()
   const { colors } = useTheme()
   const [region, setRegion] = useState({
     latitude: 51.107883,
@@ -23,6 +26,7 @@ const MapScreen = ({ navigation }) => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421
   })
+  const [userPosition, setUserPosition] = useState({})
   const [location, setLocation] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
   const dispatch = useDispatch()
@@ -46,11 +50,21 @@ const MapScreen = ({ navigation }) => {
       enabledHighAccuracy: true
     })
     setLocation(location)
-    setRegion({
+    setUserPosition({
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
       latitudeDelta: 0.045,
       longitudeDelta: 0.045
+    })
+  }
+
+  const centerMap = () => {
+    const { latitude, longitude, latitudeDelta, longitudeDelta } = userPosition
+    map.current.animateToRegion({
+      latitude,
+      longitude,
+      latitudeDelta,
+      longitudeDelta
     })
   }
 
@@ -84,34 +98,40 @@ const MapScreen = ({ navigation }) => {
           <Text>{error}</Text>
         </View>
       ) : (
-        <MapView
-          style={styles.map}
-          region={region}
-          onRegionChange={() => setRegion(region)}
-          zoomEnabled={true}
-          minZoomLevel={5}
-          mapType={'standard'}
-          scrollEnabled={true}
-          showsUserLocation={true}
-          showsCompass={true}
-        >
-          {dwarfs &&
-            dwarfs.length > 0 &&
-            dwarfs.map((dwarf) => (
-              <Marker
-                key={dwarf.name}
-                coordinate={{ latitude: dwarf.lat, longitude: dwarf.lng }}
-              >
-                <Callout
-                  onPress={() =>
-                    navigation.navigate('DwarfDetails', { dwarfId: dwarf.id })
-                  }
+        <Fragment>
+          <CurrentLocationButton cb={() => centerMap()} />
+          <MapView
+            style={styles.map}
+            region={region}
+            onRegionChange={() => setRegion(region)}
+            zoomEnabled={true}
+            minZoomLevel={5}
+            mapType={'standard'}
+            scrollEnabled={true}
+            showsUserLocation={true}
+            showsCompass={true}
+            ref={map}
+          >
+            {dwarfs &&
+              dwarfs.length > 0 &&
+              dwarfs.map((dwarf) => (
+                <Marker
+                  key={dwarf.name}
+                  coordinate={{ latitude: dwarf.lat, longitude: dwarf.lng }}
                 >
-                  <Title style={{ color: colors.primary }}>{dwarf.name}</Title>
-                </Callout>
-              </Marker>
-            ))}
-        </MapView>
+                  <Callout
+                    onPress={() =>
+                      navigation.navigate('DwarfDetails', { dwarfId: dwarf.id })
+                    }
+                  >
+                    <Title style={{ color: colors.primary }}>
+                      {dwarf.name}
+                    </Title>
+                  </Callout>
+                </Marker>
+              ))}
+          </MapView>
+        </Fragment>
       )}
     </View>
   )
