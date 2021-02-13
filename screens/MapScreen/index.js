@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import * as Permissions from 'expo-permissions'
+import * as Location from 'expo-location'
 import MapView, { Marker, Callout } from 'react-native-maps'
 import { Title, useTheme } from 'react-native-paper'
 import {
@@ -22,13 +23,11 @@ const MapScreen = ({ navigation }) => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421
   })
+  const [location, setLocation] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null)
   const dispatch = useDispatch()
 
   const { dwarfs, loading, error } = useSelector((state) => state.dwarfList)
-
-  useEffect(() => {
-    dispatch(listDwarfs())
-  }, [dispatch])
 
   const [permission, askForPermission] = Permissions.usePermissions(
     Permissions.LOCATION,
@@ -36,6 +35,32 @@ const MapScreen = ({ navigation }) => {
       ask: true
     }
   )
+
+  const getUserPosition = async () => {
+    let { status } = await Location.requestPermissionsAsync()
+    if (status !== 'granted') {
+      setErrorMsg('Permission to access location was denied')
+      return
+    }
+    let location = await Location.getCurrentPositionAsync({
+      enabledHighAccuracy: true
+    })
+    setLocation(location)
+    setRegion({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      latitudeDelta: 0.045,
+      longitudeDelta: 0.045
+    })
+  }
+
+  useEffect(() => {
+    getUserPosition()
+  }, [])
+
+  useEffect(() => {
+    dispatch(listDwarfs())
+  }, [dispatch])
 
   if (!permission || permission.status !== 'granted') {
     return (
@@ -67,6 +92,8 @@ const MapScreen = ({ navigation }) => {
           minZoomLevel={5}
           mapType={'standard'}
           scrollEnabled={true}
+          showsUserLocation={true}
+          showsCompass={true}
         >
           {dwarfs &&
             dwarfs.length > 0 &&
