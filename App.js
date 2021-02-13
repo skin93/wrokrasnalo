@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StatusBar, View, Text } from 'react-native'
+import { StatusBar, View, ActivityIndicator } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import StackNavigator from './navigation/StackNavigator'
 
@@ -35,18 +35,22 @@ const App = () => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
-        setLoggedIn(false)
-        setLoading(true)
+        setTimeout(() => {
+          setLoggedIn(false)
+          setLoading(true)
+        }, 2000)
       } else {
-        setLoggedIn(true)
-        setLoading(true)
+        setTimeout(() => {
+          setLoggedIn(true)
+          setLoading(true)
+        }, 2000)
       }
     })
   }, [])
   if (!loading) {
     return (
-      <View>
-        <Text>Loading...</Text>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size={100} color={theme.colors.primary} />
       </View>
     )
   }
@@ -55,7 +59,10 @@ const App = () => {
     <StoreProvider store={store}>
       <PaperProvider theme={theme}>
         <NavigationContainer>
-          <StatusBar barStyle='light-content' backgroundColor='#005691' />
+          <StatusBar
+            barStyle='light-content'
+            backgroundColor={theme.colors.primary}
+          />
           <StackNavigator loggedIn={loggedIn} />
         </NavigationContainer>
       </PaperProvider>
