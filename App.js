@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StatusBar, View, ActivityIndicator } from 'react-native'
+import { StatusBar, View, ActivityIndicator, LogBox } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import StackNavigator from './navigation/StackNavigator'
 
@@ -12,6 +12,8 @@ import { Provider as StoreProvider } from 'react-redux'
 import store from './redux/store'
 
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
+
+LogBox.ignoreLogs(['Setting a timer'])
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig)

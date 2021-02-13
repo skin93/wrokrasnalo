@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import * as Permissions from 'expo-permissions'
 import MapView, { Marker, Callout } from 'react-native-maps'
 import { Title, useTheme } from 'react-native-paper'
 import {
@@ -6,7 +7,8 @@ import {
   View,
   Dimensions,
   Text,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableOpacity
 } from 'react-native'
 
 import { listDwarfs } from '../../redux/actions/dwarfActions'
@@ -27,6 +29,25 @@ const MapScreen = ({ navigation }) => {
   useEffect(() => {
     dispatch(listDwarfs())
   }, [dispatch])
+
+  const [permission, askForPermission] = Permissions.usePermissions(
+    Permissions.LOCATION,
+    {
+      ask: true
+    }
+  )
+
+  if (!permission || permission.status !== 'granted') {
+    return (
+      <View style={styles.container}>
+        <Text>Permission is not granted</Text>
+        <TouchableOpacity style={styles.button} onPress={askForPermission}>
+          <Text style={styles.buttonText}>Grant permission</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
       {loading ? (
@@ -81,5 +102,16 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height
+  },
+  button: {
+    marginTop: 40,
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20
   }
 })
