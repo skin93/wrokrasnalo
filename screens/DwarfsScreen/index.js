@@ -51,7 +51,7 @@ const DwarfsScreen = ({ navigation }) => {
               {filteredDwarfs.map((dwarf) => (
                 <TouchableOpacity
                   key={dwarf.id}
-                  style={styles.imageWrapper}
+                  style={styles.dwarfItem}
                   onPress={() =>
                     navigation.navigate('DwarfDetails', { dwarfId: dwarf.id })
                   }
@@ -60,6 +60,7 @@ const DwarfsScreen = ({ navigation }) => {
                     style={styles.image}
                     source={{ uri: dwarf.picture_src }}
                   />
+                  <Text style={styles.dwarfName}>{dwarf.name}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
@@ -83,16 +84,25 @@ const styles = StyleSheet.create({
     margin: 10
   },
   dwarfContainer: {
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
-  imageWrapper: {
-    margin: 10
+  dwarfItem: {
+    margin: 10,
+    padding: 10,
+    height: 210,
+    backgroundColor: '#fff',
+    borderRadius: 10
   },
   image: {
-    width: 180,
-    height: 180,
+    width: 160,
+    height: 160,
     borderRadius: 10
+  },
+  dwarfName: {
+    textAlign: 'center',
+    marginTop: 10,
+    fontWeight: 'bold'
   }
 })
