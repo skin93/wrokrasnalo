@@ -25,7 +25,7 @@ const theme = {
     ...DefaultTheme.colors,
     primary: '#005691',
     light: '#fafafa',
-    text: '#e8f1f5',
+    text: '#000',
     dark: '#004a7c'
   }
 }
