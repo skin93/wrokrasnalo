@@ -44,7 +44,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 20
+    margin: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10
   },
   image: {
     width: 300,
@@ -65,7 +67,8 @@ const styles = StyleSheet.create({
   },
   dwarfDescription: {
     fontSize: 18,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: 10
   },
   button: {
     marginTop: 20
