@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import {
   View,
@@ -9,13 +9,23 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native'
+import { Searchbar } from 'react-native-paper'
 
 import { useTheme } from 'react-native-paper'
 
 const DwarfsScreen = ({ navigation }) => {
-  const { colors } = useTheme()
-
   const { dwarfs, loading, error } = useSelector((state) => state.dwarfList)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filteredDwarfs, setFilteredDwarfs] = useState(dwarfs)
+
+  const filterDwarfs = (query) => {
+    setSearchQuery(query)
+    const filteredDwarfs = dwarfs.filter((dwarf) =>
+      dwarf.name.toLowerCase().includes(query.toLowerCase())
+    )
+    setFilteredDwarfs(filteredDwarfs)
+  }
+  const { colors } = useTheme()
 
   return (
     <View style={styles.container}>
@@ -30,22 +40,30 @@ const DwarfsScreen = ({ navigation }) => {
       ) : (
         dwarfs &&
         dwarfs.length > 0 && (
-          <ScrollView contentContainerStyle={styles.dwarfContainer}>
-            {dwarfs.map((dwarf) => (
-              <TouchableOpacity
-                key={dwarf.id}
-                style={styles.imageWrapper}
-                onPress={() =>
-                  navigation.navigate('DwarfDetails', { dwarfId: dwarf.id })
-                }
-              >
-                <Image
-                  style={styles.image}
-                  source={{ uri: dwarf.picture_src }}
-                />
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+          <>
+            <Searchbar
+              style={styles.searchBar}
+              placeholder='Search'
+              onChangeText={filterDwarfs}
+              value={searchQuery}
+            />
+            <ScrollView contentContainerStyle={styles.dwarfContainer}>
+              {filteredDwarfs.map((dwarf) => (
+                <TouchableOpacity
+                  key={dwarf.id}
+                  style={styles.imageWrapper}
+                  onPress={() =>
+                    navigation.navigate('DwarfDetails', { dwarfId: dwarf.id })
+                  }
+                >
+                  <Image
+                    style={styles.image}
+                    source={{ uri: dwarf.picture_src }}
+                  />
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </>
         )
       )}
     </View>
@@ -59,6 +77,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  searchBar: {
+    padding: 5,
+    margin: 10
   },
   dwarfContainer: {
     justifyContent: 'space-between',
