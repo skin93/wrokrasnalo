@@ -1,12 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../../redux/actions/userActions'
-import { Appbar, useTheme } from 'react-native-paper'
+import { Appbar, useTheme, Menu } from 'react-native-paper'
 
 const CustomAppbar = ({ navigation, previous }) => {
   const { colors } = useTheme()
+
   const dispatch = useDispatch()
+
+  const [visible, setVisible] = useState(false)
+  const openMenu = () => setVisible(true)
+  const closeMenu = () => setVisible(false)
+
   return (
     <Appbar.Header style={{ backgroundColor: colors.dark }} statusBarHeight={8}>
       {previous ? (
@@ -30,6 +36,22 @@ const CustomAppbar = ({ navigation, previous }) => {
             icon='logout'
             onPress={() => dispatch(logout())}
           />
+          {!previous ? (
+            <Menu
+              visible={visible}
+              onDismiss={closeMenu}
+              anchor={
+                <Appbar.Action icon='menu' color='white' onPress={openMenu} />
+              }
+            >
+              <Menu.Item
+                onPress={() => {
+                  navigation.navigate('UserDwarfs')
+                }}
+                title='Moje krasnale'
+              />
+            </Menu>
+          ) : null}
         </View>
       )}
     </Appbar.Header>
