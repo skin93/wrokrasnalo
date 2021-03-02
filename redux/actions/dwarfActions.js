@@ -5,7 +5,10 @@ import {
   DWARF_LIST_SUCCESS,
   DWARF_DETAILS_REQUEST,
   DWARF_DETAILS_SUCCESS,
-  DWARF_DETAILS_FAIL
+  DWARF_DETAILS_FAIL,
+  DWARF_LIST_MY_REQUEST,
+  DWARF_LIST_MY_SUCCESS,
+  DWARF_LIST_MY_FAIL
 } from '../constants/dwarfConstants'
 
 export const listDwarfs = () => async (dispatch) => {
@@ -53,6 +56,35 @@ export const listDwarfDetails = (id) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: DWARF_DETAILS_FAIL,
+      payload: err.message
+    })
+  }
+}
+
+export const listMyDwarfs = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: DWARF_LIST_MY_REQUEST
+    })
+
+    const userDwarfs = []
+
+    const snapshot = await firebase
+      .firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .collection('userDwarfs')
+      .where('added', '==', true)
+      .get()
+
+    await snapshot.forEach((doc) => {
+      userDwarfs.push(doc.data())
+    })
+
+    dispatch({ type: DWARF_LIST_MY_SUCCESS, payload: userDwarfs })
+  } catch (err) {
+    dispatch({
+      type: DWARF_LIST_MY_FAIL,
       payload: err.message
     })
   }
