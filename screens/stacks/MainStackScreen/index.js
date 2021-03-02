@@ -3,6 +3,7 @@ import React from 'react'
 import MapScreen from '../../MapScreen'
 import DwarfsScreen from '../../DwarfsScreen'
 import DwarfDetailsScreen from '../../DwarfDetailsScreen'
+import UserDwarfsScreen from '../../UserDwarfsScreen'
 import CustomAppbar from '../../../components/UI/CustomAppbar'
 
 const MainStack = createStackNavigator()
@@ -16,6 +17,7 @@ const MainStackScreen = () => {
       <MainStack.Screen name='Map' component={MapScreen} />
       <MainStack.Screen name='Dwarfs' component={DwarfsScreen} />
       <MainStack.Screen name='DwarfDetails' component={DwarfDetailsScreen} />
+      <MainStack.Screen name='UserDwarfs' component={UserDwarfsScreen} />
     </MainStack.Navigator>
   )
 }
