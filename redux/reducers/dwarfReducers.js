@@ -7,16 +7,21 @@ import {
   DWARF_DETAILS_FAIL,
   DWARF_LIST_MY_REQUEST,
   DWARF_LIST_MY_SUCCESS,
-  DWARF_LIST_MY_FAIL
+  DWARF_LIST_MY_FAIL,
+  DWARF_ADD_TO_COLLECTION_REQUEST,
+  DWARF_ADD_TO_COLLECTION_FAIL,
+  DWARF_ADD_TO_COLLECTION_SUCCESS
 } from '../constants/dwarfConstants'
 
-const dwarfListState = {
-  dwarfs: [],
+const initialState = {
   loading: false,
-  error: ''
+  error: '',
+  dwarfs: [],
+  dwarf: {},
+  userDwarfs: []
 }
 
-export const dwarfListReducer = (state = dwarfListState, action) => {
+export const dwarfListReducer = (state = initialState, action) => {
   switch (action.type) {
     case DWARF_LIST_REQUEST:
       return {
@@ -40,13 +45,7 @@ export const dwarfListReducer = (state = dwarfListState, action) => {
   }
 }
 
-const dwarfDetailsState = {
-  dwarf: {},
-  loading: false,
-  error: ''
-}
-
-export const dwarfDetailsReducer = (state = dwarfDetailsState, action) => {
+export const dwarfDetailsReducer = (state = initialState, action) => {
   switch (action.type) {
     case DWARF_DETAILS_REQUEST:
       return {
@@ -70,13 +69,7 @@ export const dwarfDetailsReducer = (state = dwarfDetailsState, action) => {
   }
 }
 
-const dwarfListMyState = {
-  userDwarfs: [],
-  loading: false,
-  error: ''
-}
-
-export const dwarfListMyReducer = (state = dwarfListMyState, action) => {
+export const dwarfListMyReducer = (state = initialState, action) => {
   switch (action.type) {
     case DWARF_LIST_MY_REQUEST:
       return {
@@ -90,6 +83,30 @@ export const dwarfListMyReducer = (state = dwarfListMyState, action) => {
         userDwarfs: action.payload
       }
     case DWARF_LIST_MY_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      }
+    default:
+      return state
+  }
+}
+
+export const dwarfAddToCollectionReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case DWARF_ADD_TO_COLLECTION_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+    case DWARF_ADD_TO_COLLECTION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        userDwarfs: [action.payload, ...userDwarfs]
+      }
+    case DWARF_ADD_TO_COLLECTION_FAIL:
       return {
         ...state,
         loading: false,

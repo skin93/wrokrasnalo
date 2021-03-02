@@ -8,7 +8,10 @@ import {
   DWARF_DETAILS_FAIL,
   DWARF_LIST_MY_REQUEST,
   DWARF_LIST_MY_SUCCESS,
-  DWARF_LIST_MY_FAIL
+  DWARF_LIST_MY_FAIL,
+  DWARF_ADD_TO_COLLECTION_REQUEST,
+  DWARF_ADD_TO_COLLECTION_FAIL,
+  DWARF_ADD_TO_COLLECTION_SUCCESS
 } from '../constants/dwarfConstants'
 
 export const listDwarfs = () => async (dispatch) => {
@@ -85,6 +88,44 @@ export const listMyDwarfs = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: DWARF_LIST_MY_FAIL,
+      payload: err.message
+    })
+  }
+}
+
+export const addDwarfToCollection = (dwarf) => async (dispatch) => {
+  try {
+    dispatch({
+      type: DWARF_ADD_TO_COLLECTION_REQUEST
+    })
+
+    const userDwarfs = []
+
+    const snapshot = await firebase
+      .firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .collection('userDwarfs')
+      .doc(dwarf.name.toLowerCase())
+      .set({
+        added: true,
+        name: dwarf.name,
+        description: dwarf.description,
+        picture_src: dwarf.picture_src,
+        lat: dwarf.lat,
+        lng: dwarf.lng,
+        address: dwarf.address,
+        id: dwarf.id
+      })
+
+    await snapshot.forEach((doc) => {
+      userDwarfs.push(doc.data())
+    })
+
+    dispatch({ type: DWARF_ADD_TO_COLLECTION_SUCCESS, payload: userDwarfs })
+  } catch (err) {
+    dispatch({
+      type: DWARF_ADD_TO_COLLECTION_FAIL,
       payload: err.message
     })
   }

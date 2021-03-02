@@ -1,18 +1,35 @@
 import React, { useEffect } from 'react'
-import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
-import { listDwarfDetails } from '../../redux/actions/dwarfActions'
+import {
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity
+} from 'react-native'
+import { Button } from 'react-native-paper'
+import {
+  listDwarfDetails,
+  addDwarfToCollection
+} from '../../redux/actions/dwarfActions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTheme } from 'react-native-paper'
 
-import { ScrollView } from 'react-native-gesture-handler'
-
 const DwarfDetailsScreen = ({ route }) => {
   const { colors } = useTheme()
+
+  const dispatch = useDispatch()
+
   useEffect(() => {
     dispatch(listDwarfDetails(route.params.dwarfId))
   }, [dispatch, route.params.dwarfId])
-  const dispatch = useDispatch()
+
   const { dwarf, loading, error } = useSelector((state) => state.dwarfDetails)
+
+  const addToCollection = () => {
+    dispatch(addDwarfToCollection(dwarf))
+  }
   return (
     <View style={styles.container}>
       {loading ? (
@@ -31,6 +48,14 @@ const DwarfDetailsScreen = ({ route }) => {
             <Text style={styles.dwarfAddress}>{dwarf.address}</Text>
           </View>
           <Text style={styles.dwarfDescription}>{dwarf.description}</Text>
+          <TouchableOpacity
+            style={styles.addButtonWrapper}
+            onPress={addToCollection}
+          >
+            <Button disabled={dwarf.added} mode='contained'>
+              DODAJ DO KOLEKCJI
+            </Button>
+          </TouchableOpacity>
         </ScrollView>
       )}
     </View>
@@ -70,7 +95,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10
   },
-  button: {
-    marginTop: 20
+  addButtonWrapper: {
+    marginVertical: 20
   }
 })
