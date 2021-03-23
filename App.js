@@ -37,15 +37,11 @@ const App = () => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
-        setTimeout(() => {
-          setLoggedIn(false)
-          setLoading(true)
-        }, 2000)
+        setLoggedIn(false)
+        setLoading(true)
       } else {
-        setTimeout(() => {
-          setLoggedIn(true)
-          setLoading(true)
-        }, 2000)
+        setLoggedIn(true)
+        setLoading(true)
       }
     })
   }, [])
