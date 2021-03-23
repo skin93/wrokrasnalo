@@ -20,7 +20,12 @@ export const listDwarfs = () => async (dispatch) => {
       type: DWARF_LIST_REQUEST
     })
 
-    const snapshot = await firebase.firestore().collection('dwarfs').get()
+    const snapshot = await firebase
+      .firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .collection('userDwarfs')
+      .get()
 
     const dwarfs = []
 
@@ -45,7 +50,9 @@ export const listDwarfDetails = (id) => async (dispatch) => {
 
     const snapshot = await firebase
       .firestore()
-      .collection('dwarfs')
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .collection('userDwarfs')
       .where('id', '==', id)
       .get()
 
@@ -107,16 +114,7 @@ export const addDwarfToCollection = (dwarf) => async (dispatch) => {
       .doc(firebase.auth().currentUser.uid)
       .collection('userDwarfs')
       .doc(dwarf.name.toLowerCase())
-      .set({
-        added: true,
-        name: dwarf.name,
-        description: dwarf.description,
-        picture_src: dwarf.picture_src,
-        lat: dwarf.lat,
-        lng: dwarf.lng,
-        address: dwarf.address,
-        id: dwarf.id
-      })
+      .update({ added: true })
 
     await snapshot.forEach((doc) => {
       userDwarfs.push(doc.data())
