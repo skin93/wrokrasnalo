@@ -16,7 +16,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { useTheme } from 'react-native-paper'
 
-const DwarfDetailsScreen = ({ route }) => {
+const DwarfDetailsScreen = ({ route, navigation }) => {
   const { colors } = useTheme()
 
   const dispatch = useDispatch()
@@ -56,6 +56,14 @@ const DwarfDetailsScreen = ({ route }) => {
               DODAJ DO KOLEKCJI
             </Button>
           </TouchableOpacity>
+          <Button
+            // disabled={dwarf.added}
+            icon='camera'
+            mode='contained'
+            onPress={() => navigation.navigate('Camera')}
+          >
+            Press me
+          </Button>
         </ScrollView>
       )}
     </View>
